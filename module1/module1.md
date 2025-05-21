@@ -1,4 +1,4 @@
-Module 1: Installing Python the Right Way :snake:
+Module 1: Installing Python the Right Way :computer:
 ---
 
 ## Background
