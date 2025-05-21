@@ -85,6 +85,20 @@ Not all python packages are available through Conda alone. Some must be installe
 ```
 conda install pip
 ```
+You will then need to find the `pip3.exe` executable file **in your environment**. To do this, locate the environment location that was shown to you during package installation. In windows, my path looks something like:
+```
+C:\Users\zvig\AppData\Local\miniconda3\envs\module1\
+```
+In MacOS:
+```
+/opt/homebrew/Caskroom/miniconda/base/envs/module1/
+```
+You can either enter the full path to your `pip` executable (`{env_path}/Scripts/pip3.exe` on Windows or `{env_path}/bin/pip3.exe` on Mac) or change your working directory to the directory containing the `pip` executable and run:
+```
+pip3 install [package name]
+```
+**Note**
+Only use `pip` to install packages that cannot be installed using conda, as conda cannot control the dependencies as well for packages installed via `pip`.
 
 ### Shipping your python packages
 To export an environment so someone else can use it, the command is simply:
@@ -100,8 +114,27 @@ This will create an identical environment to [my_env_name] in the current direct
 #### Pro Tip
 Do not be afraid to just create a new conda environment. If you have to use a large package with lots of dependencies, for example, do not try to install it in the base environment, in hopes of avoiding dependency conflicts.
 
-#### What's IDE and how do we use it?
-Integrated Development Environments (IDEs) are simply user interfaces designed to help make coding easier than a windows notebook. While some people choose to use heavy IDEs like PyCharm for their extensive features and others choose to use lightweight IDEs like Windows Notepad at the extreme end of things. So what IDE should you choose as a scientist??
-I personally have found VSCode to be the best IDE because it is both extremely capable while also being lightweight. VSCode also allows coding in different languages including Latex!
+#### What's IDE, and Why Use One?
+An Integrated Development Environment (IDE) is a graphical tool designed to make coding easier than simply typing code in a blank text file. While some are heavy, full-featured IDEs, like PyCharm, others are lightweight and bare-bones like Windows Notepad. So what IDE should you choose as a scientist??
+
+I personally have found VSCode to be the sweetspot between overhead computing cost and useful features that help you write code easily. Plus, it allows the use of other scientific computing languages such as R, Latex and, yes, even MatLab!
 ##### Activating a python environment in VSCode
-You can download VSCode [here](https://code.visualstudio.com/download). You can now activate your environment within VSCode. Look in the bottom right corner and you may see the currently active Python version (3.13). Click on this version number to see all available conda environments. Select one and you are on your way!
+You can download VSCode [here](https://code.visualstudio.com/download). The first thing you will see when you open your new IDE is a blank page. Locate the file menu and select Open Folder...
+![vscode1](./screenshots/VSCode1.png)
+Open a new folder in a place where you will keep all of your python code. Once you do this, a file explorer menu will appear on the left-hand side of your IDE.
+![vscode2](./screenshots/VSCode2.png)
+I already have a python file open, but you should find the "New File..." button located at the top of this file explorer and create a new file with the extension ".py" to indicate that it is a python file. Open this file and try to import some of the packages you installed in your conda environment. For example:
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+```
+Running this file may or may not work at this point because your IDE does not know what environment to look for! It may be able to locate a default installation of python, but to ensure you are using the right environment, select your conda environment from the bottom right corner of VSCode.
+![vscode3](./screenshots/VSCode3.png)
+This will open up a list of environments. Simply select your desired environment and all the packages in this environment will be available to use in your IDE.
+![vscode4](./screenshots/VSCode4.png)
+You should now be able to run your code to import the modules you installed in your conda environment!
+
+## Final Thoughts
+Installing python modules written by others and using them in your own code is one of the most useful skills that a scientist can have these days! Hopefully this module gave you the confidence to be able to do this task sucessfully. You will likely run into struggles as you get into using packages that are less developed than the ones availabe on conda or even `pip`, but this will be an issue for a future module. Finally, I will reiterate the importance of partitioning your python projects into different conda environments. Not only does it help with possibile compatibility issues, but it keeps your projects running quickly, since python does not have to keep track of too many packages when starting up your project. 
+
+Next time, we will go into more depth about using random scientific python packages found on the internet!
