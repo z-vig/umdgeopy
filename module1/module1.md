@@ -128,7 +128,11 @@ I already have a python file open, but you should find the "New File..." button 
 import numpy as np
 import matplotlib.pyplot as plt
 ```
-Running this file may or may not work at this point because your IDE does not know what environment to look for! It may be able to locate a default installation of python, but to ensure you are using the right environment, select your conda environment from the bottom right corner of VSCode.
+Running this file may or may not work at this point for two reasons: 1) VSCode does not know what a python file is yet or 2) VSCode does not know what environment to look for!
+
+To solve the first issue, locate the extensions tab on the left hand ribbon and search for the python extension (see below). Once this extension is added, VSCode knows what to do with files that have the *.py ending.
+![vscode5](./screenshots/VSCode5.png)
+Now VSCode may be able to locate a default installation of python, but to ensure you are using the right environment, select your conda environment from the bottom right corner of VSCode.
 ![vscode3](./screenshots/VSCode3.png)
 This will open up a list of environments. Simply select your desired environment and all the packages in this environment will be available to use in your IDE.
 ![vscode4](./screenshots/VSCode4.png)
