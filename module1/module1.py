@@ -20,6 +20,7 @@ def plot_random(N: int) -> float:
     x = rng.normal(3, 3, N)
     y = rng.normal(0, 2, N)
     plt.scatter(x, y, marker='x', color='red')
+    print("TEST")
 
     return np.mean(x)
 
