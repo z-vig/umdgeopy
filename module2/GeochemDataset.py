@@ -1,8 +1,12 @@
 # module2/GeochemDataset.py
 
+# Standard Libraries
+from pathlib import Path
+
+# External Imports
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 
 process_dict = {
     "XRF26": "Fluxed Glass Disk X-Ray Fluorescence Spectrometry",
@@ -55,15 +59,8 @@ class ElementalMeasurement:
             if key in element_string_parts[-1]:
                 self.process = val
 
-        self._value = None
-
-    @property
-    def value(self):
-        return self._value
-
-    @value.setter
-    def value(self, val):
-        self._value = val
+    def set_value(self, val):
+        self.value = val
 
 
 class GeochemSample:
@@ -94,7 +91,7 @@ class GeochemSample:
         measurement_values = all_values.iloc[measurement_indices]
         for meas, val in zip(measurement_objects, measurement_values):
             if not np.isnan(val):
-                meas.value = val
+                meas.set_value(val)
                 setattr(self, meas.name, meas)
 
         self._set_metadata(all_values)
@@ -183,7 +180,7 @@ class GeochemStandard:
         measurement_values = all_values.iloc[measurement_indices]
         for meas, val in zip(measurement_objects, measurement_values):
             if not np.isnan(val):
-                meas.value = val
+                meas.set_value(val)
                 setattr(self, meas.name, meas)
 
         self.name = all_values.iloc[0]
@@ -265,49 +262,66 @@ def parse_elemental_measurements(
     return elemental_measurements, np.array(measurement_indices)
 
 
+def compare_rock_types(
+    gd: GeochemDataset,
+    ax,
+    element_type: str = "major",
+    logscale: bool = False
+):
+    """
+    Creates comparison plots between granitic, intermediate and ultramafic
+    rocks.
+
+    Parameters
+    ----------
+    gd: GeochemDataset
+        Dataset to plot from.
+    ax: Axis
+        Matplotlib axis to plot into.
+    element_type: str
+        Either "Major" or "Minor".
+    logscale: bool, optional
+        Toggles whether or not to have the y-axis be in log units.
+    """
+    for sample in gd.samples:
+        if "granite" in sample.rock_name:
+            sample.spider_plot(
+                ax, element_type=element_type, color="black", alpha=0.6
+            )
+        elif "ultramafic" in sample.rock_name:
+            sample.spider_plot(
+                ax, element_type=element_type, color="red", alpha=0.6
+            )
+        elif "intermediate" in sample.rock_name:
+            sample.spider_plot(
+                ax, element_type=element_type, color="orange", alpha=0.6
+            )
+    legend_elems = [
+        Line2D([0], [0], color="black", label="Granites"),
+        Line2D([0], [0], color="red", label="Ultramafics"),
+        Line2D([0], [0], color="orange", label="Ungrp. Intermediate Rocks")
+    ]
+    ax.legend(handles=legend_elems)
+    title_str = element_type.capitalize() + \
+        " Elements: Granite vs. Ultramafics"
+    ax.set_title(title_str)
+
+    if logscale:
+        ax.set_yscale('log')
+
+
 if __name__ == "__main__":
     from matplotlib.lines import Line2D
+    import matplotlib.pyplot as plt
+
     # Getting path stuff sorted out. Put your local path here!
-    from pathlib import Path
     fp = Path("C:/Users/zvig/Desktop/python_code/umdgeopy/module2/"
               "sample_geochemical_data.csv")
 
     # Creating a GeoChemDataset object
     gd = GeochemDataset(fp)
 
-    # Plotting the major element spider plots for all granite samples.
-    def compare_granite_ultramafic(
-        ax,
-        element_type: str = "major",
-        logscale: bool = False
-    ):
-        for n, sample in enumerate(gd.samples):
-            if "granite" in sample.rock_name:
-                sample.spider_plot(
-                    ax, element_type=element_type, color="black", alpha=0.6
-                )
-            elif "ultramafic" in sample.rock_name:
-                sample.spider_plot(
-                    ax, element_type=element_type, color="red", alpha=0.6
-                )
-            elif "intermediate" in sample.rock_name:
-                sample.spider_plot(
-                    ax, element_type=element_type, color="orange", alpha=0.6
-                )
-        legend_elems = [
-            Line2D([0], [0], color="black", label="Granites"),
-            Line2D([0], [0], color="red", label="Ultramafics"),
-            Line2D([0], [0], color="orange", label="Ungrp. Intermediate Rocks")
-        ]
-        ax.legend(handles=legend_elems)
-        title_str = element_type.capitalize() + \
-            " Elements: Granite vs. Ultramafics"
-        ax.set_title(title_str)
-
-        if logscale:
-            ax.set_yscale('log')
-
     f, [ax1, ax2] = plt.subplots(2, 1, figsize=(17, 10), tight_layout=True)
-    compare_granite_ultramafic(ax1, "major")
-    compare_granite_ultramafic(ax2, "minor", logscale=True)
+    compare_rock_types(gd, ax1, "major")
+    compare_rock_types(gd, ax2, "minor", logscale=True)
     plt.show()
