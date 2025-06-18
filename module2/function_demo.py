@@ -1,6 +1,6 @@
 # function_demo.py
 
-import pandas as pd
+# import pandas as pd
 
 
 def get_large_arguments(
@@ -9,7 +9,7 @@ def get_large_arguments(
     *args,
     kwarg1: str = "large",
     **kwargs
-):
+) -> list:
     """
     Demonstrates the capabilities of a function in python by checking for
     which function arguments are over a certain value.
@@ -37,7 +37,7 @@ def get_large_arguments(
     Returns
     -------
     large_arguments: list
-        A list of arguments over the threshold
+        A list of arguments over the threshold.
     """
     print(f"Argument 1 is: {argument1}")
     print(f"Argument 2 is: {argument2}")
@@ -66,12 +66,13 @@ def get_large_arguments(
 
 
 if __name__ == "__main__":
+    import pandas as pd
     large_nums = get_large_arguments(
         150.7,
         4,
         13000,
-        270.3,
-        4.5,
+        367,
+        0.2,
         kwarg1="very large",
         kwarg2="my second keyword"
     )
@@ -79,6 +80,7 @@ if __name__ == "__main__":
 
     # Now, here is some code for opening a .csv file of geochemical data.
     file_name = "./module2/sample_geochemical_data.csv"
+
     df = pd.read_csv(file_name, delimiter=',')
     sio2_pct = df["SiO2_%_ME_XRF26"].to_numpy()
     sample_names = df["Sample"].to_list()

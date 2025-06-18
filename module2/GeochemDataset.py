@@ -20,7 +20,7 @@ process_dict = {
 
 def findall(needle, haystack):
     """
-    Finds all occurences of a chracter (`needle`) in a string (`haystack`)
+    Finds all occurences of a chracter (`needle`) in a string (`haystack`).
     """
     all_occurences = []
     for n, i in enumerate(haystack):
@@ -315,7 +315,7 @@ if __name__ == "__main__":
     import matplotlib.pyplot as plt
 
     # Getting path stuff sorted out. Put your local path here!
-    fp = Path("C:/Users/zvig/Desktop/python_code/umdgeopy/module2/"
+    fp = Path("C:/Users/zacha/python_code/umdgeopy/module2/"
               "sample_geochemical_data.csv")
 
     # Creating a GeoChemDataset object
