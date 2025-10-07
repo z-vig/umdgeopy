@@ -1,4 +1,5 @@
 # Miniconda Installation Notes
+
 ---
 
 ## Windows
