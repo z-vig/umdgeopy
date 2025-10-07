@@ -43,6 +43,7 @@ class Dog:
         None
         """
         self.age += 1
+        print(f"Happy Birthday {self.name}! You are now {self.age}.")
 
 
 class LargeNumbers:

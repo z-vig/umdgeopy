@@ -8,6 +8,7 @@ import numpy as np
 import pandas as pd
 # import matplotlib.pyplot as plt
 
+
 process_dict = {
     "XRF26": "Fluxed Glass Disk X-Ray Fluorescence Spectrometry",
     "ICP06": "Inductively Coupled Plasma Atomic Emission Spectroscopy",
@@ -111,6 +112,8 @@ class GeochemSample:
             unit_case = "percent"
         elif element_type == "minor":
             unit_case = "ppm"
+        else:
+            raise ValueError("element_type not correct.")
         elements = {}
         for elem in self.__dict__.keys():
             meas = getattr(self, elem)
@@ -234,7 +237,7 @@ class GeochemDataset:
 
 def parse_elemental_measurements(
     column_names: list[str]
-) -> list[ElementalMeasurement]:
+) -> tuple[list[ElementalMeasurement], np.ndarray]:
     """
     Parses through columns names of the dataset to find elemental measurements.
 
@@ -312,7 +315,7 @@ def compare_rock_types(
 
 if __name__ == "__main__":
     from matplotlib.lines import Line2D
-    import matplotlib.pyplot as plt
+    # import matplotlib.pyplot as plt
 
     # Getting path stuff sorted out. Put your local path here!
     fp = Path("C:/Users/zacha/python_code/umdgeopy/module2/"
@@ -321,7 +324,7 @@ if __name__ == "__main__":
     # Creating a GeoChemDataset object
     gd = GeochemDataset(fp)
 
-    f, [ax1, ax2] = plt.subplots(2, 1, figsize=(17, 10), tight_layout=True)
-    compare_rock_types(gd, ax1, "major")
-    compare_rock_types(gd, ax2, "minor", logscale=True)
-    plt.show()
+    # f, [ax1, ax2] = plt.subplots(2, 1, figsize=(17, 10), tight_layout=True)
+    # compare_rock_types(gd, ax1, "major")
+    # compare_rock_types(gd, ax2, "minor", logscale=True)
+    # plt.show()
