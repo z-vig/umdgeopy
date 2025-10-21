@@ -41,7 +41,7 @@ brew --version
 If this is succesful, install conda via the following command:
 
 ```bash
-brew install --cask conda
+brew install --cask miniconda
 ```
 
 where the `--cask` flag is simply telling what box of packages to grab conda from.
