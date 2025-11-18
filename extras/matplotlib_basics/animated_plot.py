@@ -83,6 +83,7 @@ def make_animation():
     ax.legend(loc="upper left")
 
     def step(frame):
+        # Filling data arrays
         rnew = r_data[frame, :] + euler_solver(
             oscillator, frame, r_data[frame, :], m=m, omega=omega, c=c
         )
@@ -92,26 +93,23 @@ def make_animation():
         )
         t_data[frame + 1] = frame
 
+        # Setting new data for the Euler solution
         pt.set_data([frame], [r_data[frame, 0]])
         lin.set_data(t_data[:frame], r_data[:frame, 0])
 
+        # Setting new dat a for analytical solution
         pt_real.set_data([frame], [sin_data[frame]])
         lin_real.set_data(t_data[:frame], sin_data[:frame])
 
+        # Dynamically setting limits
         _ymin = np.min(r_data[: frame + 1])
         _ymax = np.max(r_data[: frame + 1])
-
         if _ymin < -15 or _ymax > 15:
             ax.set_ylim(_ymin - 0.05 * _ymin, _ymax + 0.05 * _ymax)
 
-        return [pt]
+        return [pt, lin, pt_real, lin_real]
 
-    anim = FuncAnimation(
-        f,
-        step,
-        frames=N - 1,
-        interval=1,
-    )
+    anim = FuncAnimation(f, step, frames=N - 1, interval=1, blit=True)
     plt.show()
     anim.save("./animation.gif")
 
