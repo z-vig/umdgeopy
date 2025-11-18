@@ -106,14 +106,14 @@ def make_animation():
 
         return [pt]
 
-    anim = FuncAnimation(  # noqa
+    anim = FuncAnimation(
         f,
         step,
         frames=N - 1,
         interval=1,
     )
     plt.show()
-    # anim.save("./animation.gif")
+    anim.save("./animation.gif")
 
 
 if __name__ == "__main__":
